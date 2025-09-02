@@ -8,31 +8,18 @@
 </head>
 <body>
   
-  <div class="container">
-    <h1>Cadastro de Usuários</h1>
+<div id="login-screen" class="container">
+  <h1>Login</h1>
+  <input type="text" id="username" placeholder="Usuário"/>
+  <input type="password" id="password" placeholder="Senha"/>
+  <button onclick="login()">Entrar</button>
+</div>
+<div id="menu-screen" class="container" style="display: none;">
+  <h1>Menu</h1>
+  <button class="menu-button" onclick="window.location.href = '#';">Cadastrar Reservas</button>
+  <button class="menu-button" onclick="window.location.href = '#';">Cadastrar Usuários</button>
+</div>
 
-    <div id="sucesso" class="mensagem sucesso"> Usuário cadastrado com sucesso!</div>
-
-    <form id="userForm">
-      <div class="form-group">
-        <label for="nome">Nome <span class="required">*</span></label>
-        <input type="text" id="nome" name="nome" required>
-      </div>
-      <div class="form-group">
-        <label for="usuario">Usuário <span class="required">*</span></label>
-        <input type="text" id="usuario" name="usuario" required>
-      </div>
-      <div class="form-group">
-        <label for="senha">Senha <span class="required">*</span></label>
-        <input type="password" id="senha" name="senha" required>
-      </div>
-      <div class="btn-container">
-        <button type="reset" class="btn">Limpar</button>
-        <button type="submit" class="btn btn-secondary">Cadastrar</button
-      </div>
-    </form>
-
-  </div>
   <script src="index.js"></script>
 </body>
 </html>
