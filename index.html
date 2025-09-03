@@ -4,21 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reservas </title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
   
-<div id="login-screen" class="container">
+<div id="tela-login" class="container">
   <h1>Login</h1>
-  <input type="text" id="username" placeholder="Usuário"/>
-  <input type="password" id="password" placeholder="Senha"/>
-  <button onclick="login()">Entrar</button>
+  <form id="form-login">
+    <input type="text" id="username" placeholder="Usuário" required/>
+    <input type="password" id="password" placeholder="Senha" required/>
+    <button type="submit">Entrar</button>
+  </form>
 </div>
-<div id="menu-screen" class="container" style="display: none;">
+
+<div id="tela-menu" class="container" style="display: none;">
   <h1>Menu</h1>
-  <button class="menu-button" onclick="window.location.href = '#';">Cadastrar Reservas</button>
-  <button class="menu-button" onclick="window.location.href = '#';">Cadastrar Usuários</button>
+  <button class="menu-button" onclick="mostrarTelaCadastroReserva()">Cadastrar Reservas</button>
+  <button class="menu-button" onclick="mostrarTelaCadastroUsuario()">Cadastrar Usuários</button>
 </div>
+
+
+<div id="tela-cadastro-reserva" class="container" style="display: none;">
+  <form id="form-reserva">
+  <h1>Cadastrar Reserva</h1>
+    <input type="text" id="nomecliente" placeholder="Nome do Cliente"/>
+    <input type="number" id="telefone" placeholder="Telefone"/>
+    <input type="date" id="data-entrada" placeholder="Data de Entrada"/>
+    <input type="date" id="data-saida" placeholder="Data de Saída"/>
+    <input type="number" id="diaria" placeholder="Valor da Diária"/>
+    <input type="text" id="observacao" placeholder="Observações"/>
+    <button type="submit">Cadastrar</button>
+  </form>
+  <button onclick="voltarAoMenu()">Voltar ao Menu Principal</button>
+</div>
+
+<div id="tela-cadastro-usuarios" class="container" style="display: none;">
+  <form id="form-usuario">
+    <h1>Cadastrar Usuário</h1>
+    <input type="text" id="nomeusuario" placeholder="Nome"/>
+    <input type="text" id="usuario-cadastro" placeholder="Usuário"/>
+    <input type="password" id="senha-cadastro" placeholder="Senha"/>
+    <button type="submit">Cadastrar</button>
+  </form>
+  <button onclick="voltarAoMenu()">Voltar ao Menu Principal</button>
+</div>
+
 
   <script src="index.js"></script>
 </body>
