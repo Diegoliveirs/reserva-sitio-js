@@ -24,7 +24,7 @@ function voltarAoLogin() {
 function mostrarTelaCadastroUsuario() {
     mostrarTela("tela-cadastro-usuarios");
 }
-
+/*
 function login(event) {
     if (event) {
         event.preventDefault();
@@ -36,6 +36,48 @@ function login(event) {
     } else {
         alert("Usuário ou Senha inválidos.");
     }
+}
+*/
+
+async function login(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    const usuario = document.getElementById("usuario-login").value;
+    const senha = document.getElementById("senha-login").value;
+
+    try {
+        const { data: usuarios, error } = await supabase
+            .from('usuarios')
+            .select('*')
+            .eq('usuario', usuario)
+            .single();
+
+            if (error || !usuarios) {
+                alert("Usuário ou senha inválidos.");
+                return;
+            }
+
+            const encoder = new TextEncoder();
+            const data = encoder.encode(senha);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const senhaHash = Array.from(new Uint8Array(hashBuffer))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+
+            if (usuarios.senha === senhaHash) {
+                alert(`Bem-vindo, ${usuarios.nome}!`);
+                mostrarTela("tela-menu");
+            }else {
+                alert("Usuário ou senha inválidos.");
+            }
+            
+    } catch (err) {
+        alert("Ocorreu um erro ao fazer login!");
+        console.error(err);
+    }
+    
 }
 
 async function cadastrarUsuario(event) {
