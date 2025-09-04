@@ -20,8 +20,9 @@
 
 <div id="tela-menu" class="container" style="display: none;">
   <h1>Menu</h1>
+  <button id="btn-cadastro-usuario" class="menu-button" onclick="mostrarTelaCadastroUsuario()" style="display: none;">Cadastrar Usuários</button>
   <button class="menu-button" onclick="mostrarTelaCadastroReserva()">Cadastrar Reservas</button>
-  <button class="menu-button" onclick="mostrarTelaCadastroUsuario()">Cadastrar Usuários</button>
+  <button class="menu-button" onclick="mostrarTelaListarReservas()">Listar Reservas</button>
 </div>
 
 
@@ -47,6 +48,25 @@
     <input type="password" id="senha-cadastro" placeholder="Senha"/>
     <button type="submit">Cadastrar</button>
   </form>
+  <button onclick="voltarAoMenu()">Voltar ao Menu Principal</button>
+</div>
+
+<div id="tela-listar-reservas" class="container" style="display: none;">
+  <h1>Reservas Cadastradas</h1>
+  <table id="tabela-reservas">
+    <thead>
+      <tr>
+        <th>Nome Cliente</th>
+        <th>Telefone</th>
+        <th>Data de Entrada</th>
+        <th>Data de Saída</th>
+        <th>Valor da Diária</th>
+        <th>Observações</th>
+      </tr>
+    </thead>
+    <tbody>  
+        </tbody>
+  </table>
   <button onclick="voltarAoMenu()">Voltar ao Menu Principal</button>
 </div>
 

@@ -128,7 +128,7 @@ button:hover {
     #tela-cadastro-reserva {
         padding: 20px;
         width: 100%;
-        max-width: 90%; /* Mais fluido no tablet */
+        max-width: 90%;
     }
     .form-row {
         flex-direction: column;
@@ -139,7 +139,7 @@ button:hover {
 @media (max-width: 480px) {
     #tela-cadastro-reserva {
         padding: 15px;
-        max-width: 90%; /* Melhor para celulares */
+        max-width: 90%;
     }
     input[type="text"], 
     input[type="date"], 
@@ -148,5 +148,105 @@ button:hover {
     button {
         font-size: 14px;
         padding: 10px;
+    }
+}
+
+/* Estilos para a tabela */
+#tabela-reservas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para o cabeçalho da tabela */
+#tabela-reservas thead {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#tabela-reservas th {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Estilos para as linhas da tabela */
+#tabela-reservas tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Efeito de hover nas linhas */
+#tabela-reservas tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para as células */
+#tabela-reservas td {
+    padding: 10px 15px;
+    vertical-align: top;
+    word-break: break-word;
+}
+
+/* Estilo para a primeira coluna */
+#tabela-reservas td:first-child,
+#tabela-reservas th:first-child {
+    font-weight: bold;
+}
+
+/* Estilos para o botão de voltar ao menu */
+#tela-listar-reservas .menu-button {
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#tela-listar-reservas .menu-button:hover {
+    background-color: #45a049;
+}
+
+/* NOVOS ESTILOS PARA O LAYOUT DE CARTÃO EM TELAS PEQUENAS */
+@media screen and (max-width: 768px) {
+    #tabela-reservas {
+        border-radius: 0;
+        box-shadow: none;
+        width: 100%;
+    }
+
+    #tabela-reservas thead {
+        display: none;
+    }
+
+    #tabela-reservas tbody tr {
+        display: block;
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    #tabela-reservas td {
+        display: block;
+        text-align: right;
+        position: relative;
+        padding: 5px 15px;
+        border: none;
+    }
+    
+    #tabela-reservas td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        font-weight: bold;
+        color: #555;
     }
 }
