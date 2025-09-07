@@ -1,0 +1,20 @@
+#form-reserva {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#form-reserva input, 
+#form-reserva button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.reserva-card {
+  background: #e9f5ff;
+  border: 1px solid #bcdffb;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}

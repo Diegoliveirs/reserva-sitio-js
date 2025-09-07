@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reservas </title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
   
@@ -18,13 +19,46 @@
   </form>
 </div>
 
-<div id="tela-menu" class="container" style="display: none;">
+ <div id="tela-menu" class="container" style="display: none;">
   <h1>Menu</h1>
   <button id="btn-cadastro-usuario" class="menu-button" onclick="mostrarTelaCadastroUsuario()" style="display: none;">Cadastrar Usuários</button>
   <button class="menu-button" onclick="mostrarTelaCadastroReserva()">Cadastrar Reservas</button>
   <button class="menu-button" onclick="mostrarTelaListarReservas()">Listar Reservas</button>
+  <button class="menu-button" onclick="mostrarTelaCalendario()">Voltar</button>
 </div>
 
+
+<div id="tela-calendario" class="container" style="display: none;">
+  <div class="calendario">
+    <div class="calendario-header">
+      <button id="mes-anterior">&lt;</button>
+      <h2 id="mes-atual"></h2>
+      <button id="proximo-mes">&gt;</button>
+    </div>
+    <div class="dias-semana">
+      <span>Dom</span>
+      <span>Seg</span>
+      <span>Ter</span>
+      <span>Qua</span>
+      <span>Qui</span>
+      <span>Sex</span>
+      <span>Sab</span>
+    </div>
+    <div class="calendario-dias" id="calendario-dias"></div>
+  </div>
+</div>
+
+    <div class="calendario-rodape" id="rodape">
+      <button class="rodape-icone" onclick="voltarAoMenu()">
+        <i class="fa fa-jelly fa-regular fa-bars"></i>
+      </button>
+      <button class="rodape-icone ativo-icone" onclick="mostrarTelaCalendario()">
+        <i class="fa fa-jelly fa-regular fa-calendar"></i>
+      </button>
+      <button class="rodape-icone">
+        <i class="fa fa-jelly fa-regular fa-cog"></i>
+      </button>
+    </div>
 
 <div id="tela-cadastro-reserva" class="container" style="display: none;">
   <form id="form-reserva">
@@ -37,7 +71,7 @@
     <input type="text" id="observacao" placeholder="Observações"/>
     <button type="submit">Cadastrar</button>
   </form>
-  <button onclick="voltarAoMenu()">Voltar ao Menu Principal</button>
+  <button id="bt-voltar-cadastro-reserva" onclick="voltarAoMenu()">Voltar ao Menu Principal</button>
 </div>
 
 <div id="tela-cadastro-usuarios" class="container" style="display: none;">
@@ -67,10 +101,24 @@
     <tbody>  
         </tbody>
   </table>
-  <button onclick="voltarAoMenu()">Voltar ao Menu Principal</button>
+  <button id="bt-voltar-menu-listar" onclick="voltarAoMenu()">Voltar ao Menu Principal</button>
 </div>
 
-
-  <script src="index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/usuarios.js"></script>
+  <script src="js/reservas.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+          console.log('ServiceWorker registrado com sucesso: ', registration.scope);
+        }, function(err) {
+          console.log('Falha ao registrar o ServiceWorker:', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
