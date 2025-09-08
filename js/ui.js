@@ -60,6 +60,13 @@ function renderizarCalendario(mes, ano) {
        if(dia === hoje.getDate() && mes === hoje.getMonth() && ano === hoje.getFullYear()) {
            diaElemento.classList.add('hoje');
        }
+
+       diaElemento.addEventListener('click', () => {
+        const mesFormatado = String(mes + 1).padStart(2, '0');
+        const diaFormatado = String(dia).padStart(2, '0');
+        const dataSelecionada = `${ano}-${mesFormatado}-${diaFormatado}`;
+        checarReserva(dataSelecionada);
+       });
     }
 
 }
