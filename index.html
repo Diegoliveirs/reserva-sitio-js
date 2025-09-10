@@ -104,6 +104,26 @@
   <button id="bt-voltar-menu-listar" onclick="voltarAoMenu()">Voltar ao Menu Principal</button>
 </div>
 
+<div id="tela-detalhes-reserva" class="container" style="display: none;">
+  <h1>Detalhes da Reserva</h1>
+  <table id="tabela-detalhes-reserva">
+    <thead>
+      <tr>
+        <th>Nome Cliente</th>
+        <th>Telefone</th>
+        <th>Data de Entrada</th>
+        <th>Data de Saída</th>
+        <th>Valor da Diária</th>
+        <th>Observações</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>  
+    </tbody>
+  </table>
+  <button id="bt-voltar-detalhes" onclick="mostrarTelaCalendario()">Voltar ao Calendário</button>
+</div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
   <script src="js/ui.js"></script>

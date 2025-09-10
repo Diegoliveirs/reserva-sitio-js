@@ -1,5 +1,24 @@
 let reservaEmEdicao = null;
 
+async function verificarConflitosReservas(dataEntrada, dataSaida, idReservaAtual = null) {
+    let query = supabase.from('reservas')
+        .select('id')
+        .lte('data_entrada', dataSaida)
+        .gte('data_saida', dataEntrada);
+
+    if (idReservaAtual) {
+        query = query.not('id', 'eq', idReservaAtual);
+    }
+    
+    const { data: reservas, error } = await query;
+    if (error) {
+        console.error("Erro ao verificar conflitos de reservas: ", error);
+        return false;
+    }
+    
+    return reservas.length > 0;
+}
+
 async function cadastrarReserva(event) {
     if (event) {
         event.preventDefault();
@@ -14,6 +33,17 @@ async function cadastrarReserva(event) {
 
     if (!nomecliente || !telefone || !dataEntrada || !dataSaida || isNaN(diaria)) {
         alert("Por favor, preencha todos os campos obrigatórios.");
+        return;
+    }
+
+    if (dataSaida < dataEntrada) {
+        alert("A data de saída não pode ser anterior à data de entrada.");
+        return;
+    }
+
+    const conflito = await verificarConflitosReservas(dataEntrada, dataSaida);
+    if (conflito) {
+        alert("Conflito de reserva: Já existe uma reserva para o período selecionado.");
         return;
     }
 
@@ -37,7 +67,8 @@ async function cadastrarReserva(event) {
         } else {
             alert(`Reserva para ${nomecliente} do dia ${dataEntrada} ate ${dataSaida} cadastrada com sucesso!`);
             document.getElementById("form-reserva").reset();
-            //voltarAoMenu();
+            renderizarCalendario(mesAtual, anoAtual);
+            mostrarTelaCalendario();
         }
     } catch (err) {
         alert("Ocorreu um erro ao cadastrar reserva!");
@@ -120,7 +151,8 @@ async function deletarReserva(id) {
                 console.error(error);
             } else {
                 alert("Reserva deletada com sucesso!");
-                mostrarTelaListarReservas();
+                renderizarCalendario(mesAtual, anoAtual);
+                mostrarTelaCalendario();
             }
 
         } catch (err) {
@@ -183,6 +215,18 @@ async function atualizarReserva(event) {
     const diaria = parseFloat(document.getElementById("diaria").value);
     const observacao = document.getElementById("observacao").value;
 
+    if (dataSaida < dataEntrada) {
+        alert("A data de saída não pode ser anterior à data de entrada.");
+        return;
+    }
+
+    const conflito = await verificarConflitosReservas(dataEntrada, dataSaida, reservaEmEdicao);
+    if (conflito) {
+        alert("As datas selecionadas já estão reservadas.");
+        return;
+    }
+
+
     try {
         const { error } = await supabase
             .from('reservas')
@@ -204,7 +248,8 @@ async function atualizarReserva(event) {
                 document.getElementById("form-reserva").reset();
                 reservaEmEdicao = null;
                 document.querySelector("#form-reserva button[type='submit']").innerText = "Cadastrar Reserva";
-                mostrarTelaListarReservas();
+                renderizarCalendario(mesAtual, anoAtual);
+                mostrarTelaCalendario();
             }
     } catch (err) {
         alert("Ocorreu um erro ao atualizar a reserva!");
@@ -217,32 +262,87 @@ async function checarReserva(data) {
         const { data: reservas, error } = await supabase
             .from('reservas')
             .select('*')
-            .or(`data_entrada.eq.${data},data_saida.eq.${data}`);
+            .lte('data_entrada', data)
+            .gte('data_saida', data);
 
             if(error) {
                 alert("Erro ao checar reservas: " + error.message);
                 console.error(error);
                 return;
             }
-
+            
             if(reservas && reservas.length > 0) {
                 const reserva = reservas[0];
-                editarReserva(reserva.id);
+                mostrarDetalheReserva(reserva);
             }else {
                 mostrarTelaCadastroReserva();
-                document.getElementById(form-reserva).reset();
-                document.getElementById("#form-reserva button[type='submit']").innerText = "Cadastrar Reserva";
-                reservaEmEdicao = null;
-                document.getElementById("data-entrada").value = data;
+                const formReserva = document.getElementById("form-reserva");
 
+                if (formReserva) {
+                    formReserva.reset();
+
+                    const submitButton = formReserva.querySelector("button[type='submit']");
+                    
+                    if (submitButton) {
+                        submitButton.innerText = "Cadastrar Reserva";
+                    }
             }
+
+            reservaEmEdicao = null;
+            document.getElementById("data-entrada").value = data;
+        }
 
     } catch (err) {
         alert("Ocorreu um erro ao checar reservas!");
         console.error(err);
+        return;
     }
 
 }
+
+async function mostrarDetalheReserva(reserva) {
+    const tabelaBody = document.querySelector("#tabela-detalhes-reserva tbody");
+    tabelaBody.innerHTML = '';
+
+    const row = tabelaBody.insertRow();
+
+    const [anoEntrada, mesEntrada, diaEntrada] = reserva.data_entrada.split('-');
+    const dataEntradaFormatada = `${diaEntrada}/${mesEntrada}/${anoEntrada}`;
+
+    const [anoSaida, mesSaida, diaSaida] = reserva.data_saida.split('-');
+    const dataSaidaFormatada = `${diaSaida}/${mesSaida}/${anoSaida}`;
+
+    const cell0 = row.insertCell(0);
+    cell0.innerText = reserva.nome_cliente;
+    cell0.setAttribute('data-label', 'Nome do Cliente');
+
+    const cell1 = row.insertCell(1);
+    cell1.innerText = reserva.telefone;
+    cell1.setAttribute('data-label', 'Telefone');
+
+    const cell2 = row.insertCell(2);
+    cell2.innerText = dataEntradaFormatada;
+    cell2.setAttribute('data-label', 'Data de Entrada');
+
+    const cell3 = row.insertCell(3);
+    cell3.innerText = dataSaidaFormatada;
+    cell3.setAttribute('data-label', 'Data de Saída');
+
+    const cell4 = row.insertCell(4);
+    cell4.innerText = reserva.diaria.toFixed(2);
+    cell4.setAttribute('data-label', 'Diária (R$)');
+
+    const cell5 = row.insertCell(5);
+    cell5.innerText = reserva.observacao || '';
+    cell5.setAttribute('data-label', 'Observação');
+
+    const cellAcoes = row.insertCell(6);
+    cellAcoes.innerHTML = `<button onclick="editarReserva('${reserva.id}')" class="btn-acao btn-editar">Editar</button>
+                           <button onclick="deletarReserva('${reserva.id}')" class="btn-acao btn-deletar">Deletar</button>`;
+
+    mostrarTela("tela-detalhes-reserva"); 
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const formLogin = document.getElementById("form-login");
