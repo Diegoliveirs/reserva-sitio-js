@@ -152,7 +152,7 @@ button:hover {
 }
 
 /* Estilos para a tabela */
-#tabela-reservas {
+#tabela-reservas, #tabela-detalhes-reserva {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
@@ -163,24 +163,24 @@ button:hover {
 }
 
 /* Estilos para o cabeçalho da tabela */
-#tabela-reservas thead {
+#tabela-reservas thead, #tabela-detalhes-reserva thead {
     background-color: #4CAF50;
     color: white;
 }
 
-#tabela-reservas th {
+#tabela-reservas th, #tabela-detalhes-reserva th {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 2px solid #ddd;
 }
 
 /* Estilos para as linhas da tabela */
-#tabela-reservas tbody tr {
+#tabela-reservas tbody tr, #tabela-detalhes-reserva tbody tr {
     border-bottom: 1px solid #ddd;
 }
 
 /* Estilos para as células */
-#tabela-reservas td {
+#tabela-reservas td, #tabela-detalhes-reserva td {
     padding: 10px 15px;
     vertical-align: top;
     word-break: break-word;
@@ -188,12 +188,14 @@ button:hover {
 
 /* Estilo para a primeira coluna */
 #tabela-reservas td:first-child,
-#tabela-reservas th:first-child {
+#tabela-reservas th:first-child,
+#tabela-detalhes-reserva td:first-child,
+#tabela-detalhes-reserva th:first-child {
     font-weight: bold;
 }
 
 /* Estilos para o botão de voltar ao menu */
-#tela-listar-reservas .menu-button {
+#tela-listar-reservas .menu-button, #tela-detalhes-reserva .menu-button {
     margin-top: 20px;
     background-color: #4CAF50;
     color: white;
@@ -204,12 +206,12 @@ button:hover {
     transition: background-color 0.3s ease;
 }
 
-#tela-listar-reservas .menu-button:hover {
+#tela-listar-reservas .menu-button:hover, #tela-detalhes-reserva .menu-button:hover {
     background-color: #45a049;
 }
 
 @media screen and (max-width: 768px) {
-    #tabela-reservas {
+    #tabela-reservas, #tabela-detalhes-reserva {
         border-radius: 0;
         box-shadow: none;
         width: 100%;
@@ -217,11 +219,11 @@ button:hover {
         background-color: transparent;
     }
 
-    #tabela-reservas thead {
+    #tabela-reservas thead, #tabela-detalhes-reserva thead {
         display: none;
     }
 
-    #tabela-reservas tbody tr {
+    #tabela-reservas tbody tr, #tabela-detalhes-reserva tbody tr {
         display: flex;
         flex-direction: column;
         margin-bottom: 20px;
@@ -232,7 +234,7 @@ button:hover {
         background-color: #ffffff;
     }
 
-    #tabela-reservas td {
+    #tabela-reservas td, #tabela-detalhes-reserva td {
         display: block;
         text-align: right;
         position: relative;
@@ -240,7 +242,7 @@ button:hover {
         border: none;
     }
     
-    #tabela-reservas td::before {
+    #tabela-reservas td::before, #tabela-detalhes-reserva td::before {
         content: attr(data-label);
         position: absolute;
         left: 15px;
@@ -249,7 +251,7 @@ button:hover {
         margin-right: 10px;
     }
 
-    #tabela-reservas td:first-child {
+    #tabela-reservas td:first-child, #tabela-detalhes-reserva td:first-child {
         display: flex;
         flex-direction: column;
         margin-top: 10px;
@@ -281,7 +283,7 @@ button:hover {
     color: #333;
     flex-grow: 1;
     text-align: center;
-    white-space: nowrap; /* Impede quebra de linha no mês/ano */
+    white-space: nowrap; 
 }
 
 .calendario-header button {
@@ -293,8 +295,8 @@ button:hover {
     width: 40px;
     height: 40px;
     font-size: 24px;
-    line-height: 1; /* Remove espaço extra da linha */
-    vertical-align: middle; /* Alinha o conteúdo verticalmente para o meio */
+    line-height: 1; 
+    vertical-align: middle; 
     background: none;
     border: none;
     cursor: pointer;
@@ -322,7 +324,8 @@ button:hover {
     padding: 10px 5px;
     border-radius: 5px;
     cursor: pointer;
-    display: inline-block;
+    display: flex; 
+  justify-content: center; 
 }
 
 .calendario-dias .dia-livre {
@@ -330,18 +333,24 @@ button:hover {
     background-color: transparent;
 }
 
-.calendario-dias .dia-selecionado {
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-}
-
 .calendario-dias .dia:hover {
-    background-color: #f0f0f0;
+    background-color: #dcdcdc;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .calendario-dias .hoje {
     background-color: #007bffa5;
+    font-weight: bold;
+}
+
+.calendario-dias .hoje.reservado {
+    border: 3px solid #007bffa5;
+    font-weight: bold;
+}
+
+.calendario-dias .reservado {
+    background-color: #ff4d4d; 
+    color: white;
     font-weight: bold;
 }
 
@@ -373,6 +382,7 @@ button:hover {
 
 .rodape-icone:hover {
     color: #4CAF50;
+    
 }
 
 .rodape-icone.ativo-icone {
