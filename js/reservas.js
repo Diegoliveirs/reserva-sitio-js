@@ -212,6 +212,38 @@ async function atualizarReserva(event) {
     }
 }
 
+async function checarReserva(data) {
+    try {
+        const { data: reservas, error } = await supabase
+            .from('reservas')
+            .select('*')
+            .or(`data_entrada.eq.${data},data_saida.eq.${data}`);
+
+            if(error) {
+                alert("Erro ao checar reservas: " + error.message);
+                console.error(error);
+                return;
+            }
+
+            if(reservas && reservas.length > 0) {
+                const reserva = reservas[0];
+                editarReserva(reserva.id);
+            }else {
+                mostrarTelaCadastroReserva();
+                document.getElementById(form-reserva).reset();
+                document.getElementById("#form-reserva button[type='submit']").innerText = "Cadastrar Reserva";
+                reservaEmEdicao = null;
+                document.getElementById("data-entrada").value = data;
+
+            }
+
+    } catch (err) {
+        alert("Ocorreu um erro ao checar reservas!");
+        console.error(err);
+    }
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const formLogin = document.getElementById("form-login");
     if (formLogin) {
