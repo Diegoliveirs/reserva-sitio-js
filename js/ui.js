@@ -1,5 +1,5 @@
 function mostrarTela(idTela) {
-    const telas = ["tela-login", "tela-menu", "tela-cadastro-reserva", "tela-cadastro-usuarios", "tela-listar-reservas", "tela-calendario", "tela-detalhes-reserva"];
+    const telas = ["tela-login", "tela-menu", "tela-cadastro-reserva", "tela-cadastro-usuarios", "tela-listar-reservas", "tela-calendario", "tela-detalhes-reserva", "tela-configuracoes"];
     const rodape = document.getElementById("rodape");
 
     telas.forEach(tela => {
@@ -30,6 +30,10 @@ function mostrarTelaCadastroUsuario() {
 
 function mostrarTelaCalendario() {
     mostrarTela("tela-calendario");
+}
+
+function mostrarTelaConfiguracoes() {
+    mostrarTela("tela-configuracoes");
 }
 
 
